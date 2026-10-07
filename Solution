@@ -1,0 +1,45 @@
+import java.util.HashMap;
+import java.util.Map;
+
+public class Solution {
+
+    public int lengthOfLongestSubstring(String s) {
+        int maxLength = 0;
+        int left = 0;
+        
+        // Maps character to its last seen index
+        Map<Character, Integer> charMap = new HashMap<>();
+        
+        for (int right = 0; right < s.length(); right++) {
+            char currentChar = s.charAt(right);
+            
+            // If character was seen inside current window, move 'left' past its previous position
+            if (charMap.containsKey(currentChar)) {
+                left = Math.max(left, charMap.get(currentChar) + 1);
+            }
+            
+            // Update last seen position of current character
+            charMap.put(currentChar, right);
+            
+            // Update max length
+            maxLength = Math.max(maxLength, right - left + 1);
+        }
+        
+        return maxLength;
+    }
+
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+
+        // Test Cases
+        String s1 = "abcabcbb";
+        String s2 = "bbbbb";
+        String s3 = "pwwkew";
+        String s4 = "";
+
+        System.out.println("Input: s = \"" + s1 + "\" -> Output: " + solution.lengthOfLongestSubstring(s1)); // Output: 3
+        System.out.println("Input: s = \"" + s2 + "\" -> Output: " + solution.lengthOfLongestSubstring(s2)); // Output: 1
+        System.out.println("Input: s = \"" + s3 + "\" -> Output: " + solution.lengthOfLongestSubstring(s3)); // Output: 3
+        System.out.println("Input: s = \"" + s4 + "\" -> Output: " + solution.lengthOfLongestSubstring(s4)); // Output: 0
+    }
+}
